@@ -29,7 +29,7 @@ export default defineComponent({
       const subscription = props.liveUpdate.subscribe(props.objectName, {
         description: 'object.description',
         uid: '"0x{:x}".format(object.uid)',
-        path: 'object.path.__str__()'
+        path: 'str(object.path)'
       });
 
       description.value = subscription.description;

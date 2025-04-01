@@ -29,7 +29,7 @@ export default defineComponent({
   },
   setup(props) {
     const objectName = ref('screen2:surface_1');
-    const objects = ref([]);
+    const objects = ref<string[]>([]);
 
     const addObject = () => {
       if (objects.value.includes(objectName.value)) {

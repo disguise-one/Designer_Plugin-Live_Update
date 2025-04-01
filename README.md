@@ -7,6 +7,7 @@ This project is a Vue 3 application designed to test live updates using the `@di
 - Subscribe to object properties and view their live updates.
 - Add and remove objects dynamically.
 - Built with Vue 3 and Vite for fast development.
+- Autocomplete for property subscriptions
 
 ## Plugin installation
 

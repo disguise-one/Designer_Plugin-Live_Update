@@ -7,7 +7,8 @@
       "name": "Dev server",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "serve"],
-      "cwd": "${workspaceFolder}"
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
     }
   ]
 }

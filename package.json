@@ -6,10 +6,12 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@disguise-one/designer-pythonapi": "github:disguise-one/designer-pythonapi",
     "@disguise-one/vue-liveupdate": "github:disguise-one/vue-liveupdate",
     "vue": "^3.5.13"
   },
   "devDependencies": {
+    "@types/node": "^22.13.14",
     "@vitejs/plugin-vue": "^5.2.3",
     "vite": "^6.2.3"
   }
