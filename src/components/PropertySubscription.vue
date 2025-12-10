@@ -31,6 +31,11 @@ export default defineComponent({
       type: String,
       required: true
     },
+    options: {
+      type: Object,
+      required: false,
+      default: () => ({})
+    }
   },
   components: {
     VueJsonPretty,
@@ -39,7 +44,11 @@ export default defineComponent({
   setup(props) {
     const row = useTemplateRef<HTMLElement>('row');
 
-    const subscription = props.liveUpdate.subscribe(props.objectName, { [props.property]: props.property });
+    console.log(`Subscribing to ${props.objectName}.${props.property} with options:`, props.options);
+    const subscription = props.liveUpdate.subscribe(props.objectName,
+      { [props.property]: props.property },
+      props.options
+    );
     useSubscriptionVisibility(row, subscription);
 
     return { value: subscription[props.property] };

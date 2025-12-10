@@ -25,11 +25,14 @@ export default defineComponent({
   setup(props) {
     const resourceInfo = useTemplateRef<HTMLElement>('resourceInfo');
 
-    const subscription = props.liveUpdate.subscribe(props.objectName, {
-      description: 'object.description',
-      uid: '"0x{:x}".format(object.uid)',
-      path: 'str(object.path)'
-    });
+    const subscription = props.liveUpdate.subscribe(props.objectName,
+      {
+        description: 'object.description',
+        uid: '"0x{:x}".format(object.uid)',
+        path: 'str(object.path)'
+      },
+      { updateFrequencyMs: 1000 }
+    );
     useSubscriptionVisibility(resourceInfo, subscription);
 
     return {

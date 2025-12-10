@@ -19,11 +19,12 @@
       </thead>
       <tbody>
         <PropertySubscription
-          v-for="property in subscriptions"
-          :key="property"
+          v-for="sub in subscriptions"
+          :key="sub.property"
           :liveUpdate="liveUpdate"
           :objectName="objectName"
-          :property="property"
+          :property="sub.property"
+          :options="sub.options"
           @unsubscribe="unsubscribe"
         />
       </tbody>
@@ -40,8 +41,11 @@ import { defineComponent, ref } from 'vue';
 import PropertySubscription from './PropertySubscription.vue';
 import ResourceInfo from './ResourceInfo.vue';
 import PropertyInput from './PropertyInput.vue';
-import type { UseLiveUpdateReturn } from '@disguise-one/vue-liveupdate';
+import type { SubscriptionConfiguration, UseLiveUpdateReturn } from '@disguise-one/vue-liveupdate';
 import { useStorage } from '@vueuse/core';
+import type { PropertySubscriptionConfig } from '../types';
+
+
 
 export default defineComponent({
   components: { PropertySubscription, ResourceInfo, PropertyInput },
@@ -57,25 +61,42 @@ export default defineComponent({
   },
   emits: ['remove'],
   setup(props) {
-    const subscriptions = useStorage<string[]>(`disguise-liveupdate-tester-objectsubscription-${props.objectName}`, []);
+    const storageKey = `disguise-liveupdate-tester-objectsubscription-${props.objectName}`;
 
-    const subscribe = (property: string) => {
+    // Handle upgrading old storage format
+    const raw = localStorage.getItem(storageKey);
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.every(item => typeof item === 'string')) {
+          localStorage.setItem(storageKey, JSON.stringify(
+            parsed.map((property: string) => ({ property, options: {} }))
+          ));
+        }
+      } catch (e) {
+        localStorage.removeItem(storageKey);
+      }
+    }
+    const subscriptions = useStorage<PropertySubscriptionConfig[]>(storageKey, []);
+
+    const subscribe = ({property, options = {}}: {property: string, options: SubscriptionConfiguration}) => {
+      console.log(JSON.stringify({property, options}));
       const p = property.trim();
-
-      if (!subscriptions.value.includes(p)) {
-        subscriptions.value.push(p);
+      if (!subscriptions.value.some(sub => sub.property === p)) {
+        subscriptions.value.push({ property: p, options });
       }
     };
 
     const unsubscribe = (property: string) => {
-      subscriptions.value = subscriptions.value.filter(p => p !== property);
+      subscriptions.value = subscriptions.value.filter(sub => sub.property !== property);
     };
 
     const { type, isResource } = props.liveUpdate.subscribe(
       props.objectName, {
         type: 'type(object)',
         isResource: 'isinstance(object, Resource)'
-      }
+      },
+      { updateFrequencyMs: 1000 }
     );
 
     return { subscriptions, type, isResource, subscribe, unsubscribe };

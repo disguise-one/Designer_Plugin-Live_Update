@@ -15,7 +15,17 @@
         :value="suggestion"
       />
     </datalist>
-    <button @click="emitSubscribe" style="margin-left: 10px;">Subscribe</button>
+    <div style="margin-top: 10px;">
+      <label for="update-frequency">Update Frequency (ms):</label>
+      <input
+        id="update-frequency"
+        type="number"
+        min="0"
+        v-model.number="updateFrequencyMs"
+        style="width: 100px; margin-left: 8px;"
+      />
+    </div>
+    <button @click="emitSubscribe">Subscribe</button>
   </div>
 </template>
 
@@ -36,6 +46,7 @@ export default defineComponent({
     const inputValue = ref('');
     const suggestions = ref<string[]>([]);
     const autocompleteListId = 'autocomplete-list';
+    const updateFrequencyMs = ref<number>(50);
 
     // Access the global autocomplete provided by the app.
     const autocomplete = inject<autocompleteFunction>('autocomplete');
@@ -46,7 +57,12 @@ export default defineComponent({
     const emitSubscribe = () => {
       const property = inputValue.value.trim();
       if (property) {
-        emit('subscribe', property);
+        emit('subscribe', {
+          property,
+          options: {
+            updateFrequencyMs: updateFrequencyMs.value
+          }
+        });
         inputValue.value = '';
       }
     };
@@ -74,7 +90,7 @@ export default defineComponent({
       debounce: 250
     });
 
-    return { inputValue, emitSubscribe, suggestions, autocompleteListId, completeSuggestion };
+    return { inputValue, emitSubscribe, suggestions, autocompleteListId, completeSuggestion, updateFrequencyMs };
   }
 });
 </script>

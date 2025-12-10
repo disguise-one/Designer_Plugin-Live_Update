@@ -9,12 +9,12 @@
   "dependencies": {
     "@disguise-one/designer-pythonapi": "github:disguise-one/designer-pythonapi",
     "@disguise-one/vue-liveupdate": "github:disguise-one/vue-liveupdate",
-    "vue": "^3.5.13",
-    "vue-json-pretty": "^2.4.0"
+    "vue": "^3.5.25",
+    "vue-json-pretty": "^2.6.0"
   },
   "devDependencies": {
-    "@types/node": "^22.14.1",
-    "@vitejs/plugin-vue": "^5.2.3",
-    "vite": "^6.2.6"
+    "@types/node": "^24.10.2",
+    "@vitejs/plugin-vue": "^6.0.2",
+    "vite": "^7.2.7"
   }
 }
