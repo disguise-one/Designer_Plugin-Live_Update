@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import { copyFileSync } from 'fs';
+import { copyFileSync, mkdirSync, existsSync } from 'fs';
 import { designerPythonLoader } from '@disguise-one/designer-pythonapi/vite-loader'
 
 export default defineConfig({
@@ -18,6 +18,9 @@ export default defineConfig({
         {
           name: 'copy-extra-assets',
           generateBundle() {
+            if (!existsSync('dist')) {
+              mkdirSync('dist');
+            }
             copyFileSync('icon.svg', 'dist/icon.svg');
             copyFileSync('d3plugin.json', 'dist/d3plugin.json');
           }
