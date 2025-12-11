@@ -1,7 +1,9 @@
 <template>
   <tr ref="row">
     <td>{{ property }}</td>
-    <td><vue-json-pretty v-model:data="value" editable :show-double-quotes=false /></td>
+    <td>
+      <JsonEditorVue v-model="jsonValue" :mode="Mode.tree" :navigation-bar="false" :main-menu-bar="false" />
+    </td>
     <td>
       <button @click="$emit('unsubscribe', property)" aria-label="Unsubscribe">
         <img src="../assets/icons/trash.svg" alt="Unsubscribe" width="16" height="16" />
@@ -11,11 +13,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useTemplateRef } from 'vue';
+import { defineComponent, useTemplateRef, ref } from 'vue';
 import { useSubscriptionVisibility } from '@disguise-one/vue-liveupdate';
 import type { UseLiveUpdateReturn } from '@disguise-one/vue-liveupdate';
-import VueJsonPretty from 'vue-json-pretty';
-import 'vue-json-pretty/lib/styles.css';
+import JsonEditorVue from 'json-editor-vue';
+import { Mode } from 'vanilla-jsoneditor';
 
 export default defineComponent({
   props: {
@@ -37,9 +39,7 @@ export default defineComponent({
       default: () => ({})
     }
   },
-  components: {
-    VueJsonPretty,
-  },
+  components: { JsonEditorVue },
   emits: ['unsubscribe'],
   setup(props) {
     const row = useTemplateRef<HTMLElement>('row');
@@ -51,7 +51,10 @@ export default defineComponent({
     );
     useSubscriptionVisibility(row, subscription);
 
-    return { value: subscription[props.property] };
+    // v-model expects a ref for two-way binding
+    const jsonValue = ref(subscription[props.property]);
+
+    return { jsonValue, Mode };
   }
 });
 </script>

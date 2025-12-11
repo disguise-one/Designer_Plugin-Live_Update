@@ -1,6 +1,6 @@
 {
   "name": "liveupdate-tester",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "scripts": {
     "serve": "vite",
     "build": "vite build",
@@ -9,11 +9,11 @@
   "dependencies": {
     "@disguise-one/designer-pythonapi": "github:disguise-one/designer-pythonapi",
     "@disguise-one/vue-liveupdate": "github:disguise-one/vue-liveupdate",
-    "vue": "^3.5.25",
-    "vue-json-pretty": "^2.6.0"
+    "json-editor-vue": "^0.18.1",
+    "vue": "^3.5.25"
   },
   "devDependencies": {
-    "@types/node": "^24.10.2",
+    "@types/node": "^24.10.3",
     "@vitejs/plugin-vue": "^6.0.2",
     "vite": "^7.2.7"
   }
