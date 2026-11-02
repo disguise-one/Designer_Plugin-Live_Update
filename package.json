@@ -10,7 +10,7 @@
     "@disguise-one/designer-pythonapi": "github:disguise-one/designer-pythonapi",
     "@disguise-one/vue-liveupdate": "github:disguise-one/vue-liveupdate#v1.2.0",
     "@vueuse/core": "^15.0.0",
-    "json-editor-vue": "^0.18.1",
+    "json-editor-vue": "^0.19.2",
     "vue": "^3.5.25"
   },
   "devDependencies": {
