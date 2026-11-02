@@ -7,6 +7,11 @@ updates:
     groups:
       minor-and-patch:
         update-types: ["minor", "patch"]
+    ignore:
+      # Keep @types/node on the same major as the Node version used in CI and the
+      # devcontainer (currently 24). Bump them together when changing Node.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
